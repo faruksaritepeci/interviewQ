@@ -61,13 +61,13 @@ def OptimalBuySell(priceList: list) -> list:
                 if money == 0: #ilk satın alım için
                     bought = 1
                     steps.append( (t, 1) )
-                    print("Bought", 1, "at day", t+1)
+                    print("Bought", 1, "at day", t+1, "- at", priceList[t],"money each")
                 
                 else:
                     bought = money // priceList[t] # paranla alabileceğin kadar al
                     money -= bought * priceList[t]
                     steps.append( (t, bought) )
-                    print("Bought", bought, "at day", t+1)
+                    print("Bought", bought, "at day", t+1, "- at", priceList[t],"money each")
                     
             else: # daha pahalı olmicaksa, bugünü atla
                 continue
@@ -92,8 +92,14 @@ def OptimalBuySell(priceList: list) -> list:
                 bought = 0
                 
     print("\nFinal money:", money)
-    print("Total profit:", money - priceList[steps[0][0]])
-    print("Total ROI:", 100*(money - priceList[steps[0][0]]) / priceList[steps[0][0]], "%")
+    if len(steps) > 0:
+        print("Total profit:", money - priceList[steps[0][0]])
+        if priceList[steps[0][0]] > 0:
+            print("Total ROI:", 100*(money - priceList[steps[0][0]]) / priceList[steps[0][0]], "%")
+        else:
+            print("ROI incalculable: price of a good cannot be zero or negative")
+    else:
+        print("No operations done, therefore no profit recorded.")
     print("### Reached end of time for this list.\n")
     return steps
                     
